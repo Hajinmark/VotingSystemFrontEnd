@@ -1,0 +1,112 @@
+<div class="flex items-start justify-center h-screen pt-18 bg-gray-100">
+    <div class="register-form shadow-[0_10px_30px_rgba(0,0,0,0.3)] p-8 w-xl rounded-2xl">
+        <div class="header text-center">
+            <p class="text-3xl font-bold mb-2">Create Account</p>
+            <p class="text-gray-500">Register to continue</p>
+        </div>
+        
+        <div class="form-container mt-5">
+            <form [formGroup]="user" (ngSubmit)="onRegister()">
+                <div formGroupName="userDetails">
+                    <div class="grid grid-cols-2 gap-3 mb-6">
+                        <div class="flex flex-col">
+                            <input type="text" placeholder="First Name" class="border border-gray-300 p-2 rounded w-full 
+                             focus:border-[#0A7C6E] focus:outline-none" formControlName="firstName"   
+                             [class.border-red-500]=" userDetails.get('firstName')?.invalid && userDetails.get('firstName')?.touched"/>
+
+                            <small >
+                                <span class="text-red-500 text-sm mt-1 min-h-5" 
+                                    *ngIf="userDetails.get('firstName')?.touched &&
+                                            userDetails.get('firstName')?.errors?.['required']">
+                                    First name is required
+                                </span>
+                            </small>
+                        </div>
+                        
+                        <div class="flex flex-col">
+                            <input type="text" placeholder="Last Name" class="border border-gray-300 p-2 rounded w-full
+                            focus:border-[#0A7C6E] focus:outline-none" formControlName="lastName" 
+                            [class.border-red-500]=" userDetails.get('lastName')?.invalid && userDetails.get('lastName')?.touched"/>
+                            <small>
+                                <span class="text-red-500 text-sm mt-1 min-h-5"  
+                                    *ngIf="userDetails.get('lastName')?.touched && userDetails.get('lastName')?.errors?.['required']">
+                                        Last name is required
+                                </span>
+                            </small>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col mb-6">
+                        <input type="text" placeholder="Email" class="border border-gray-300 p-2 rounded w-full 
+                        focus:border-[#0A7C6E] focus:outline-none" formControlName="email"
+                        [class.border-red-500]=" userDetails.get('email')?.invalid && userDetails.get('email')?.touched"/>
+                        <small>
+                            <span class="text-red-500 text-sm mt-1 min-h-5"  
+                                *ngIf="userDetails.get('email')?.touched && userDetails.get('email')?.errors?.['required']">
+                                Email is required
+                            </span>
+                            <span class="text-red-500 text-sm mt-1 min-h-5"  
+                                *ngIf="userDetails.get('email')?.touched && userDetails.get('email')?.errors?.['email']">
+                                The email format is incorrect
+                            </span>
+                        </small>
+                    </div>
+                </div>
+               
+                <div class="flex flex-col mb-6">
+                     <input type="text" placeholder="Username" class="border border-gray-300 p-2 rounded w-full
+                    focus:border-[#0A7C6E] focus:outline-none" formControlName="username"
+                    [class.border-red-500]=" user.get('username')?.invalid && user.get('username')?.touched"/>
+                    <small>
+                        <span class="text-red-500 text-sm mt-1 min-h-5"  
+                            *ngIf="user.get('username')?.touched && user.get('username')?.errors?.['required']">
+                            Username is required
+                        </span>
+                        <span class="text-red-500 text-sm mt-1 min-h-5"  
+                            *ngIf="user.get('username')?.touched && user.get('username')?.hasError('minlength')">
+                            Username must be at least 6 characters long
+                        </span>
+                    </small>
+                </div>
+                
+              
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="flex flex-col mb-6">
+                        <input type="password" placeholder="Password" class="border border-gray-300 p-2 rounded w-full
+                        focus:border-[#0A7C6E] focus:outline-none" formControlName="passwordHash"
+                        [class.border-red-500]=" user.get('passwordHash')?.invalid && user.get('passwordHash')?.touched"/>
+                        <small>
+                            <span class="text-red-500 text-sm mt-1 min-h-5" 
+                            *ngIf="user.get('passwordHash')?.touched && user.get('passwordHash')?.errors?.['required']">
+                                Password is required
+                            </span>
+                            <span class="text-red-500 text-sm mt-1 min-h-5" 
+                            *ngIf="user.get('passwordHash')?.touched && user.get('passwordHash')?.hasError('minlength')">
+                                Password must be at least 6 characters long
+                            </span>
+                        </small>
+                    </div>
+                    <div class="flex flex-col mb-6">
+                        <input type="password" placeholder="Confirm Password" class="border border-gray-300 p-2 rounded w-full
+                        focus:border-[#0A7C6E] focus:outline-none" formControlName="confirmPassword"
+                        [class.border-red-500]=" user.get('confirmPassword')?.invalid && user.get('confirmPassword')?.touched"/>
+                        <small>
+                            <span class="text-red-500 text-sm mt-1 min-h-5" *ngIf="user.hasError('passwordMisMatch') && user.get('confirmPassword')?.touched">
+                                Password does not match
+                            </span>
+                        </small>
+                    </div>
+                </div>
+
+                <button type="submit" class="bg-[#F59E0B] p-2 rounded w-full text-white mt-6 cursor-pointer hover:bg-[#D97706]">
+                    Register
+                </button>
+            </form>
+
+            <div class="flex items-center justify-center register-container gap-1 mt-6">
+                <p class="text-gray-500">Already have an account ? </p> 
+                <a routerLink="/login" class="text-blue-500 cursor-pointer hover:text-blue-800">Login</a>
+            </div>
+        </div>
+    </div>
+</div>
