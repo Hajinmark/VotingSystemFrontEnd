@@ -1,0 +1,58 @@
+<div class="relative flex flex-col w-full h-full overflow-scroll text-gray-700 bg-white shadow-md rounded-lg bg-clip-border">
+  <table class="w-full text-left table-auto min-w-max text-slate-800">
+    <thead>
+      <tr class="text-slate-500 border-b border-slate-300 bg-slate-50">
+        @for(column of columns; track column.key)
+        {
+            <th class="p-4">
+                <p class="text-sm leading-none font-normal">
+                    {{ column.label }}
+                </p>
+            </th>
+        }
+        <th class="p-4">
+          <p class="text-sm leading-none font-normal">
+            Action
+          </p>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+        
+        @for (data of datas; track data.electionId) 
+        {
+          <tr class="hover:bg-slate-50">
+            @for (column of columns; track column.key) {
+              <td class="p-4">
+                <p class="text-sm font-bold">
+                  {{data[column.key]}}
+                </p>
+              </td>
+            }
+
+            <td class="p-4">
+
+                <!-- Update -->
+                <button
+                  type="button"
+                  class="text-blue-600 hover:text-blue-800 cursor-pointer"
+                  (click)="this.onUpdateModal(data)"
+                  >
+                  <i class="fa-solid fa-pen"></i>
+                </button>
+
+                <!-- Delete -->
+                <!-- <button
+                  type="button"
+                  class="text-red-600 hover:text-red-800 cursor-pointer"
+                  (click)="delete.emit(data)">
+                  <i class="fa-solid fa-trash"></i>
+                </button> -->
+
+            </td>
+          </tr>
+        }
+      
+    </tbody>
+  </table>
+</div>

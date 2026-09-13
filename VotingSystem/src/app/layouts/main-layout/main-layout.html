@@ -1,0 +1,108 @@
+<main class="sidebar bg-gray-100 font-family-karla min-h-screen flex flex-col md:flex-row">
+
+  <!-- Sidebar -->
+  <aside class="bg-sidebar w-full md:w-64 hidden md:block shadow-xl" [class.mobile-open]="isMenuOpen()">
+    <div class="p-6 text-center mt-5">
+      <a class="text-white text-3xl font-semibold uppercase hover:text-gray-300 cursor-pointer">
+        <i class="fas fa-check-to-slot"></i>
+        <span>Voting System</span>
+      </a>
+    </div>
+    <nav class="text-white text-base font-semibold pt-3">
+
+      <a routerLink="/dashboard" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item cursor-pointer">
+        <i class="fas fa-tachometer-alt mr-3"></i>
+        Dashboard
+      </a>
+
+      <a routerLink="/election" routerLinkActive="active" id="sidebar-link" 
+        class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-white cursor-pointer">
+        <i class="fas fa-table mr-3"></i>
+        Elections
+      </a>
+      <a routerLink="/supplier" id="sidebar-link" routerLinkActive="active"
+      class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
+        <i class="fas fa-table mr-3"></i>
+        Supplier
+      </a>
+      <a routerLink="/product" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
+        <i class="fas fa-align-left mr-3"></i>
+        Product
+      </a>
+      <a routerLink="/customer" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
+        <i class="fas fa-tablet-alt mr-3"></i>
+        Customer
+      </a>
+      <!-- <a routerLink="/order" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
+        <i class="fas fa-calendar mr-3"></i>
+        Order
+      </a> -->
+      <ul class="sidebar text-white opacity-75 hover:opacity-100 py-4 pl-6">
+        <!-- Orders Parent -->
+        <li  class="sidebar-item cursor-pointer text-white mt-3 pl-3 flex justify-between">
+          <span class="mr-4">Orders</span>
+          <span class="arrow">▾</span>
+        </li>
+
+        <!-- Orders Submenu -->
+        <ul class="submenu mt-3 pl-3 ">
+          <li class="cursor-pointer mt-2">
+            Create Order
+          </li>
+          <li class="cursor-pointer mt-2">
+            Manage Orders
+          </li>
+        </ul>
+      </ul>
+       <a class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
+        <i class="fas fa-tablet-alt mr-3"></i>
+        Manage Users
+      </a>
+
+
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <section class="flex-1 bg-gray-100 layout-content">
+    <header class="app-header">
+      <div class="header-leading">
+        <button
+          type="button"
+          class="menu-button"
+          aria-label="Toggle navigation menu"
+          [attr.aria-expanded]="isMenuOpen()"
+          (click)="toggleMenu()"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <div>
+          <p class="header-kicker">Administration</p>
+          <h1>Voting System</h1>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button type="button" class="icon-button" aria-label="View notifications">
+          <span aria-hidden="true">&#128276;</span>
+          <span class="notification-dot"></span>
+        </button>
+        <div class="user-summary">
+          <span class="user-avatar" aria-hidden="true">AD</span>
+          <div>
+            <strong>Admin User</strong>
+            <span>Administrator</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="p-6">
+
+      <router-outlet></router-outlet>
+
+    </main>
+  </section>
+</main>

@@ -22,11 +22,27 @@
             </div>
 
             <div class="login-form mt-7">
-                 <form action="">
-                    <input type="text" placeholder="Username" class="border border-gray-300 p-2 rounded w-full mb-6
-                    focus:border-[#0A7C6E] focus:outline-none "/>
-                    <input type="password" placeholder="Password" class="border border-gray-300 p-2 rounded w-full
-                    focus:border-[#0A7C6E] focus:outline-none "/>
+                 <form [formGroup]="loginForm" (ngSubmit)="onLoginUser()">
+
+                    <input type="text" placeholder="Username" class="border border-gray-300 p-2 rounded w-full 
+                    focus:border-[#0A7C6E] focus:outline-none " formControlName="username" 
+                    [class.border-red-500]=" loginForm.get('username')?.invalid && loginForm.get('username')?.touched"/>
+
+                     <small class="text-red-500 mb-6"
+                        *ngIf="loginForm.get('username')?.invalid &&
+                                loginForm.get('username')?.touched">
+                        Username is required.
+                    </small>
+
+                    <input type="password" placeholder="Password" class="border border-gray-300 p-2 rounded mt-6 w-full
+                    focus:border-[#0A7C6E] focus:outline-none " formControlName="password"
+                    [class.border-red-500]=" loginForm.get('password')?.invalid && loginForm.get('password')?.touched"/>
+
+                    <small class="text-red-500"
+                        *ngIf="loginForm.get('password')?.invalid &&
+                                loginForm.get('password')?.touched">
+                        Password is required.
+                    </small>
 
                     <button type="submit" class="bg-[#F59E0B] p-2 rounded w-full text-white mt-6 cursor-pointer hover:bg-[#D97706]">
                         Login

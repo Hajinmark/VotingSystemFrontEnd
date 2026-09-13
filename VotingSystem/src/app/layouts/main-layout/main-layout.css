@@ -1,0 +1,130 @@
+@import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
+
+.font-family-karla { font-family: karla; }
+.bg-sidebar { background: #0A7C6E; }
+.cta-btn { color: #3d68ff; }
+.upgrade-btn { background: #1947ee; }
+.upgrade-btn:hover { background: #0038fd; }
+.active-nav-link { background: #578FCA; }
+.nav-item:hover { background: #578FCA; }
+.account-link:hover { background: #3d68ff; }
+
+.layout-content { min-width: 0; }
+
+.app-header {
+    min-height: 78px;
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    background: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.header-leading,
+.header-actions,
+.user-summary {
+    display: flex;
+    align-items: center;
+}
+
+.header-leading { gap: 1rem; }
+.header-actions { gap: 1.5rem; }
+
+.header-kicker {
+    margin: 0 0 0.15rem;
+    color: #6b7280;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.app-header h1 {
+    margin: 0;
+    color: #172b4d;
+    font-size: 1.35rem;
+    font-weight: 700;
+}
+
+.menu-button,
+.icon-button {
+    border: 0;
+    cursor: pointer;
+    background: transparent;
+}
+
+.menu-button {
+    width: 2.5rem;
+    height: 2.5rem;
+    display: none;
+    padding: 0.55rem;
+}
+
+.menu-button span {
+    display: block;
+    height: 2px;
+    margin: 5px 0;
+    background: #0a7c6e;
+}
+
+.icon-button {
+    position: relative;
+    color: #4b5563;
+    font-size: 1.15rem;
+}
+
+.notification-dot {
+    position: absolute;
+    top: 0;
+    right: -2px;
+    width: 7px;
+    height: 7px;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    background: #e05252;
+}
+
+.user-summary { gap: 0.7rem; }
+.user-avatar {
+    width: 2.35rem;
+    height: 2.35rem;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    color: #ffffff;
+    background: #0a7c6e;
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+
+.user-summary strong,
+.user-summary span:last-child {
+    display: block;
+}
+
+.user-summary strong { color: #172b4d; font-size: 0.82rem; }
+.user-summary span:last-child { color: #6b7280; font-size: 0.72rem; }
+
+#sidebar-link.active
+{
+    background-color: #578FCA;
+}
+
+@media (max-width: 767px) {
+    .menu-button { display: block; }
+    .app-header { min-height: 70px; padding: 0 1rem; }
+    .header-actions { gap: 0.8rem; }
+    .user-summary > div { display: none; }
+    aside.mobile-open {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        display: block;
+        width: min(18rem, 86vw);
+    }
+}
+
