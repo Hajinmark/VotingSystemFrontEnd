@@ -2,15 +2,16 @@ import { Component, inject, Inject, OnInit } from '@angular/core';
 import { Modal } from '../../shared/components/modal/modal';
 import { ElectionService } from '../../core/services/election.service';
 import { ElectionData, IElectionStatus } from '../../shared/models/Elections';
-import { ReactiveFormsModule, FormControl, FormGroup, FormBuilder, Validators, Form } from '@angular/forms';
+import { ReactiveFormsModule, FormControl, FormGroup, FormBuilder, Validators, Form, FormsModule } from '@angular/forms';
 import { jwtDecode } from 'jwt-decode';
 import { JwtPayload } from '../../shared/models/Users';
 import { DataTable } from '../../shared/components/data-table/data-table';
 import { DatePipe } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-election',
-  imports: [Modal, ReactiveFormsModule, DataTable] ,
+  imports: [Modal, ReactiveFormsModule, DataTable, FormsModule] ,
   templateUrl: './election.html',
   styleUrl: './election.css',
   providers: [DatePipe]
@@ -36,29 +37,33 @@ export class Election implements OnInit{
   ];
 
   electionData : ElectionData[] = [];
+  electionID ! : number;
 
   electionForm = this.fb.group({
-      title: ['', Validators.required],
-      description: ['', Validators.required],
+      title: ['', [Validators.required, Validators.minLength(5)]],
+      description: ['', [Validators.required, Validators.minLength(5)]],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
       status: [0, Validators.required],
       createdBy: [1, Validators.required]
   });
 
+  get electionFCtrls() { return this.electionForm.controls};
+
   electionUpdateForm  = this.fb.group({
-      title: ['', Validators.required],
+      electionID : [ this.electionID, Validators.required],
+      electionName: ['', Validators.required],
       description: ['', Validators.required],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
-      status: [0, Validators.required],
-      createdBy: [1, Validators.required]
+      electionStatus: [0, Validators.required],
   });
   data: any;
 
   activeModal ? : string;
+  searchElectionName: string | null = '';
 
-  constructor(private electionService: ElectionService) {}
+  constructor(private electionService: ElectionService, private router: Router) {}
 
   ngOnInit(): void 
   {
@@ -67,6 +72,73 @@ export class Election implements OnInit{
     
   }
 
+  reloadComponent() {
+    const currentUrl = this.router.url;
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate([currentUrl]);
+    });
+  }
+
+  inactiveModal(data : boolean)
+  {
+    this.isModalOpen == data
+  }
+  onOpenDeleteElection(data : ElectionData)
+  {
+    this.isModalOpen = true;
+    this.activeModal = 'Delete_Election_Modal';
+    console.log('Data ',data);
+  }
+
+  onChangeFilterElectionName()
+  {
+    if(!this.searchElectionName || this.searchElectionName.trim() === '')
+    {
+      this.getElectionData();
+      return;
+    }
+   
+  }
+
+  onFilterElectionName()
+  {
+    if(this.searchElectionName || this.searchElectionName?.trim() === '')
+    {
+      this.electionService.filterElectionByName(this.searchElectionName).subscribe({
+        next : (res) =>{
+          this.electionData = res
+        },
+        error : (err) =>{
+          console.log('Err : ',err);
+        }
+      });
+    }
+    else
+    {
+      this.getElectionData();
+      return;
+    }
+    
+  }
+  
+
+  onUpdateElecionData()
+  {
+    const formValue = this.electionUpdateForm.getRawValue();
+    const request = {
+      ...formValue,
+      electionStatus: formValue.electionStatus?.toString() ?? null
+    };
+    this.electionService.updateElection(request).subscribe({
+      next : (res)=>{
+        console.log('Update ',res);
+        this.reloadComponent();
+      },
+      error : (err)=>{
+        console.log('Update Err ',err);
+      }
+    });
+  }
   getActionData(data : string)
   {
     this.activeModal = data;
@@ -74,17 +146,16 @@ export class Election implements OnInit{
 
   getEditData(data : ElectionData)
   {
-    //console.log('Date ',data.startDate.toISOString().slice(0, 16));
     this.electionUpdateForm.patchValue({
-      title : data.electionName,
+      electionID : data.electionId, 
+      electionName : data.electionName,
       description : data.electionDescription,
       startDate: this.datePipe.transform(data.startDate, 'yyyy-MM-dd') ?? '',
       endDate: this.datePipe.transform(data.endDate, 'yyyy-MM-dd') ?? '',
-      status : data.electionStatus
+      electionStatus : data.electionStatus
     });
 
-    console.log('Edit Data ',data);
-
+    
   }
 
   getElectionData()
@@ -92,10 +163,8 @@ export class Election implements OnInit{
     this.electionService.getElectionData().subscribe({
       next : (data) =>{
         this.electionData = data;
-        console.log('Get Election Data ',this.electionData);
       },
       error : (err) =>{
-        //console.log(err.message);
       }
     });
   }
@@ -122,6 +191,7 @@ export class Election implements OnInit{
     this.activeModal = 'Update_Election_Modal';
 
     this.getEditData(data);
+    this.electionID = data.electionId;
   }
 
   openModal() {
@@ -145,6 +215,7 @@ export class Election implements OnInit{
         next : (response) =>{
           this.electionForm.reset();
           this.closeModal(false);
+          this.reloadComponent();
         },
         error : (err) =>{
           console.log(err.message);

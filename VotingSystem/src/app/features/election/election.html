@@ -5,16 +5,19 @@
     </div>
 
     <div class="flex justify-between items-center mt-7">
-
+       
         <div>
-          <input type="text" name="search" id="search" placeholder="Search election" 
+          <input type="text" name="search" id="search" placeholder="Search election"  [(ngModel)]="searchElectionName"
+            (input)="onChangeFilterElectionName()"
             class="w-full max-w-md px-4 py-2 bg-white border border-slate-300 rounded-md text-base text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0a7c6e] focus:ring-1 focus:ring-[#0a7c6e]">
         </div>
         
         <div class="flex items-center gap-4">
-
+            
             <div>
-                <button class="bg-white hover:opacity-75 text-black font-bold py-2 px-4 border border-gray-300 rounded cursor-pointer">
+                <button class="bg-white hover:opacity-75 text-black font-bold py-2 px-4 border border-gray-300 rounded cursor-pointer"
+                    (click)="onFilterElectionName()"
+                    >
                     <i class="fas fa-filter"></i>
                     Filter
                 </button>
@@ -26,7 +29,6 @@
                     Create Election
                 </button>
             </div>
-
         </div>
 
     </div>
@@ -42,7 +44,16 @@
                         <input type="text" placeholder="Enter Election Name" class="w-full px-4 py-2 bg-white border border-slate-300
                                 rounded-md text-base text-slate-900 placeholder-slate-400
                                 focus:outline-none focus:border-[#0a7c6e]
-                                focus:ring-1 focus:ring-[#0a7c6e]" formControlName="title">
+                                focus:ring-1 focus:ring-[#0a7c6e]" formControlName="title"
+                                [class.is-invalid]="electionFCtrls.title.touched && electionFCtrls.title.invalid">
+
+                         @if (electionFCtrls.title.touched && electionFCtrls.title.errors) 
+                         {
+                            @if (electionFCtrls.title.errors['required']) 
+                            { 
+                                <small class="text-red-500">Election Name is required</small> 
+                            }
+                        }
                     </div>
                     <div class="mt-5">
                         <label for="description" class="mb-2 block text-sm font-medium text-gray-700">Description </label>
@@ -110,7 +121,7 @@
     @if(activeModal === 'Update_Election_Modal')
     {
         <app-modal [isOpen]="isModalOpen" [modalTitle]="modalTitle" [modalDescription]="modalDescription"
-            (close)="closeModal($event)" (submit)="submitModal()" [currentModal]="activeModal">
+            (close)="closeModal($event)" (submit)="onUpdateElecionData()" [currentModal]="activeModal">
             <div class="content-modal mt-7">
                 <form [formGroup]="electionUpdateForm">
                     <div class="mt-5">
@@ -118,7 +129,7 @@
                         <input type="text" placeholder="Enter Election Name" class="w-full px-4 py-2 bg-white border border-slate-300
                                 rounded-md text-base text-slate-900 placeholder-slate-400
                                 focus:outline-none focus:border-[#0a7c6e]
-                                focus:ring-1 focus:ring-[#0a7c6e]" formControlName="title">
+                                focus:ring-1 focus:ring-[#0a7c6e]" formControlName="electionName">
                     </div>
                     <div class="mt-5">
                         <label for="description" class="mb-2 block text-sm font-medium text-gray-700">Description </label>
@@ -167,7 +178,7 @@
                             class="w-full px-4 py-2 bg-white border border-slate-300
                                     rounded-md text-base text-slate-900
                                     focus:outline-none focus:border-[#0a7c6e]
-                                    focus:ring-1 focus:ring-[#0a7c6e]" formControlName="status"
+                                    focus:ring-1 focus:ring-[#0a7c6e]" formControlName="electionStatus"
                             >
                             <option ngValue="null" disabled selected>Select an option</option>
                             @for (status of ElectionStatus; track status.id)
@@ -184,25 +195,23 @@
         </app-modal>
     }
    
+    @if(activeModal === 'Delete_Election_Modal')
+    {
+        <app-modal [currentModal]="activeModal" (close)="inactiveModal($event)" [isOpen]="isModalOpen">
+            <div class="content-modal mt-7">
+                olol
+            </div>
+        </app-modal>
+    }
 </div> 
 
 <div class="bg-white rounded shadow-md p-3 pl-5 pr-5 mt-5">
     
-    <!-- <app-data-table [columns]="electionColumns" [datas]="electionData" 
-    (edit)="getEditData($event)" (action)="getActionData($event)"></app-data-table> -->
-
     <div class="relative flex flex-col w-full h-full overflow-scroll text-gray-700 bg-white shadow-md rounded-lg bg-clip-border">
         <table class="w-full text-left table-auto min-w-max text-slate-800">
             <thead>
             <tr class="text-slate-500 border-b border-slate-300 bg-slate-50">
-                <!-- @for(column of columns; track column.key)
-                {
-                    <th class="p-4">
-                        <p class="text-sm leading-none font-normal">
-                            {{ column.label }}
-                        </p>
-                    </th>
-                } -->
+               
                 <th class="p-4">
                     <p class="text-sm leading-none font-normal">
                         Created At
@@ -278,6 +287,11 @@
                                 <i class="fa-solid fa-pen"></i>
                             </button>
 
+                            <!-- Delete -->
+                            <button type="button"
+                                class="text-red-600 hover:text-red-800 cursor-pointer" (click)="onOpenDeleteElection(row)">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
                         </td>
                     </tr>
                 }
@@ -294,5 +308,4 @@
             </tbody>
         </table>
     </div>
-    
 </div>

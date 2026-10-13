@@ -1,7 +1,7 @@
 import { Injectable, OnInit } from '@angular/core';
 import { API_CONFIG } from '../api.config';
 import { HttpClient } from '@angular/common/http';
-import { ElectionData, ICreateElection, IElectionStatus } from '../../shared/models/Elections';
+import { Election, ElectionData, FilterElectionResponse, ICreateElection, IElectionStatus, UpdateElectionRequest } from '../../shared/models/Elections';
 import { Observable } from 'rxjs/internal/Observable';
 
 @Injectable({
@@ -30,5 +30,17 @@ export class ElectionService{
   {
     var apiUrl = this.baseUrl + '/Election/GetElections';
     return this.http.get<ElectionData[]>(apiUrl);
+  }
+
+  updateElection(request: UpdateElectionRequest) : Observable<Election>
+  {
+    var apiUrl = this.baseUrl + '/Election/UpdateElection';
+    return this.http.put<Election>(apiUrl, request);
+  }
+
+  filterElectionByName(electionName : string) : Observable<FilterElectionResponse[]>
+  {
+    var apiUrl = this.baseUrl + '/Election/FilterElectionByName?electionName='
+    return this.http.get<FilterElectionResponse[]>(apiUrl + electionName);
   }
 }

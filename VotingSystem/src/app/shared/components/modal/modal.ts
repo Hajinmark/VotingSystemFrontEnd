@@ -15,6 +15,7 @@ export class Modal {
   @Input() modalDescription ? : string = '';
   @Input() modalTitle ? : string = '';
   
+
   closeModal()
   {
     this.close.emit(false);
