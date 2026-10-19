@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, Output} from '@angular/core';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-modal',
-  imports: [],
+  imports: [NgClass],
   templateUrl: './modal.html',
   styleUrl: './modal.css',
 })

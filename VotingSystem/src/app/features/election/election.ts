@@ -8,10 +8,11 @@ import { JwtPayload } from '../../shared/models/Users';
 import { DataTable } from '../../shared/components/data-table/data-table';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-election',
-  imports: [Modal, ReactiveFormsModule, DataTable, FormsModule] ,
+  imports: [Modal, ReactiveFormsModule, DataTable, FormsModule, NgxPaginationModule] ,
   templateUrl: './election.html',
   styleUrl: './election.css',
   providers: [DatePipe]
@@ -25,6 +26,12 @@ export class Election implements OnInit{
   modalTitle?: string;
   modalDescription?: string;
 
+  
+  electionName ? : string;
+
+  //pagination
+  page = 1;
+  itemsPerPage = 10;
   ElectionStatus : IElectionStatus[] = [];
 
   electionColumns = [
@@ -79,14 +86,28 @@ export class Election implements OnInit{
     });
   }
 
+  onRemoveElection()
+  {
+    this.electionService.deleteElection(this.electionID).subscribe({
+      next : (res) =>{
+        console.log(res);
+        this.isModalOpen = false;
+      },
+      error : (err) => console.log(err)
+    })
+  }
+
   inactiveModal(data : boolean)
   {
-    this.isModalOpen == data
+    this.isModalOpen = data
   }
   onOpenDeleteElection(data : ElectionData)
   {
     this.isModalOpen = true;
     this.activeModal = 'Delete_Election_Modal';
+    this.modalTitle = "Delete Election";
+    this.electionName = data.electionName;
+    this.electionID = data.electionId;
     console.log('Data ',data);
   }
 

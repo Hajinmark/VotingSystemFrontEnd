@@ -5,6 +5,7 @@ import { Dashboard } from './features/dashboard/dashboard';
 import { authGuard } from './core/guards/auth-guard';
 import { MainLayout } from './layouts/main-layout/main-layout';
 import { Election } from './features/election/election';
+import { Position } from './features/position/position';
 
 export const routes: Routes = [
     {
@@ -31,6 +32,11 @@ export const routes: Routes = [
             {
                 path: 'election',
                 component: Election,
+                canActivate: [authGuard]
+            },
+            {
+                path: 'position',
+                component: Position,
                 canActivate: [authGuard]
             }
 

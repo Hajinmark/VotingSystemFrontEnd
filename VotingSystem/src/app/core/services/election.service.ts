@@ -14,6 +14,11 @@ export class ElectionService{
   constructor(private http: HttpClient) {
   }
 
+  deleteElection(electionId : number) : Observable<string>
+  {
+    var apiUrl = this.baseUrl + '/Election/DeleteElection?Id=';
+    return this.http.delete<string>(apiUrl + electionId);
+  }
   getElectectionStatus() : Observable<IElectionStatus[]>
   {
     var apiUrl = this.baseUrl + '/Election/GetElectionStatus';

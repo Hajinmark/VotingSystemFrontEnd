@@ -197,10 +197,10 @@
    
     @if(activeModal === 'Delete_Election_Modal')
     {
-        <app-modal [currentModal]="activeModal" (close)="inactiveModal($event)" [isOpen]="isModalOpen">
-            <div class="content-modal mt-7">
-                olol
-            </div>
+        <app-modal [currentModal]="activeModal" (close)="inactiveModal($event)" [isOpen]="isModalOpen" [modalTitle]="modalTitle" (submit)="this.onRemoveElection()">
+           <div class="mt-5 text-center">
+                <span>Are you sure you want to delete <strong>{{this.electionName}}</strong> ?</span>
+           </div>
         </app-modal>
     }
 </div> 
@@ -244,9 +244,9 @@
                 </th>
             </tr>
             </thead>
-            <tbody>
+            <tbody> 
                 
-                @for(row of electionData; track row.electionId)
+                @for(row of electionData | paginate: { itemsPerPage: itemsPerPage, currentPage: page }; track row.electionId)
                 {
                     <tr class="hover:bg-slate-50">
                         <td class="p-4">
@@ -299,7 +299,7 @@
                 {
                     <tr class="hover:bg-slate-50">
                         <td class="p-4">
-                            <p class="text-sm font-bold">
+                            <p class="text-sm font-bold  text-center">
                                 No Elections found.
                             </p>
                         </td>
@@ -307,5 +307,14 @@
                 }
             </tbody>
         </table>
+
+        <div class="text-center mt-5">
+            <pagination-controls
+                (pageChange)="page = $event"
+                previousLabel="Prev"
+                nextLabel="Next">
+            </pagination-controls>
+        </div>
+      
     </div>
 </div>

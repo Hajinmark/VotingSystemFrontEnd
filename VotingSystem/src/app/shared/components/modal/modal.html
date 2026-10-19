@@ -1,8 +1,5 @@
 @if (this.isOpen && (this.currentModal === 'Insert_Election_Modal' || this.currentModal === 'Update_Election_Modal' || this.currentModal === 'Delete_Election_Modal'))
 {
-    <div>
-        {{this.currentModal}}
-    </div>
     <div class="modal-form fixed inset-0 z-50 flex justify-center items-start pt-20 bg-black/50 px-4">
         <div class="form-container bg-white rounded-lg shadow-md w-1/3 p-4">
             <header class=" text-black rounded-t-lg flex justify-between items-center">
@@ -37,9 +34,11 @@
                     </button>
 
                     <button (click)="submitModal()"
-                        type=" submit"
-                        class="w-full sm:w-auto bg-[#0a7c6e] hover:opacity-75 text-white font-bold py-2 px-4 rounded cursor-pointer">
-                        Save
+                        type="submit"
+                        class="w-full sm:w-auto hover:opacity-75 text-white font-bold py-2 px-4 rounded cursor-pointer"
+                        [ngClass]="currentModal === 'Delete_Election_Modal' ? 'bg-red-600' : 'bg-[#0a7c6e]'">
+
+                        <span>{{ currentModal === 'Delete_Election_Modal' ? 'Delete' : 'Save' }}</span>
                     </button>
 
                 </div>

@@ -1,0 +1,125 @@
+<main>
+    <div class="header-group bg-white rounded shadow-md p-3 pl-5 pr-5">
+        <div>
+            <header class="text-4xl">Position</header>
+            <p class="text-gray-400">View and manage positions per election</p>
+        </div>  
+
+        <div class="flex justify-between items-center mt-7">
+            <div class="flex items-center gap-3">
+                <div>
+                    <input type="text" name="" id="" placeholder="Election Name" [(ngModel)]="ElectionNameParams"
+                    class="w-full max-w-md px-4 py-2 bg-white border border-slate-300 rounded-md text-base text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0a7c6e] focus:ring-1 focus:ring-[#0a7c6e]">
+                </div>
+
+                <div>
+                    <input type="text" name="" id="" placeholder="Position Name" [(ngModel)]="PositionNameParams"
+                    class="w-full max-w-md px-4 py-2 bg-white border border-slate-300 rounded-md text-base text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0a7c6e] focus:ring-1 focus:ring-[#0a7c6e]">
+                </div>
+            </div>
+            
+
+           <div class="flex items-center gap-3">
+                <button class="bg-white hover:opacity-75 text-black font-bold py-2 px-4 border border-gray-300 rounded cursor-pointer" (click)="onClickFilterPosition()">
+                    <i class="fas fa-filter"></i>
+                    Filter
+                </button>
+                <button class="bg-[#0a7c6e] hover:opacity-75 text-white font-bold py-2 px-4 rounded cursor-pointer">
+                    Create Position
+                </button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div class="bg-white rounded shadow-md p-3 pl-5 pr-5 mt-5">
+    
+    <div class="relative flex flex-col w-full h-full overflow-scroll text-gray-700 bg-white shadow-md rounded-lg bg-clip-border">
+        <table class="w-full text-left table-auto min-w-max text-slate-800">
+            <thead>
+            <tr class="text-slate-500 border-b border-slate-300 bg-slate-50">
+               
+                <th class="p-4">
+                    <p class="text-sm leading-none font-normal">
+                        Created At
+                    </p>
+                </th>
+                <th class="p-4">
+                    <p class="text-sm leading-none font-normal">
+                        Election Name
+                    </p>
+                </th>
+                <th class="p-4">
+                    <p class="text-sm leading-none font-normal">
+                        Position
+                    </p>
+                </th>
+                <th class="p-4">
+                <p class="text-sm leading-none font-normal">
+                    Action
+                </p>
+                </th>
+            </tr>
+            </thead>
+            <tbody> 
+                
+                @for(row of PositionData; track row.positionID)
+                {
+                    <tr class="hover:bg-slate-50">
+                        <td class="p-4">
+                            <p class="text-sm font-bold">
+                                {{ row.dateCreated }}
+                            </p>
+                        </td>
+
+                        <td class="p-4">
+                            <p class="text-sm font-bold">
+                                {{ row.electionName }}
+                            </p>
+                        </td>
+
+                        <td class="p-4">
+                            <p class="text-sm font-bold">
+                                {{ row.positionName }}
+                            </p>
+                        </td>
+
+                        <td>
+                            <!-- Update -->
+                            <button
+                                type="button"
+                                class="text-blue-600 hover:text-blue-800 cursor-pointer">
+                                <i class="fa-solid fa-pen"></i>
+                            </button>
+
+                            <!-- Delete -->
+                            <button type="button"
+                                class="text-red-600 hover:text-red-800 cursor-pointer">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                }
+                <!--@empty 
+                {
+                    <tr class="hover:bg-slate-50">
+                        <td class="p-4">
+                            <p class="text-sm font-bold  text-center">
+                                No Elections found.
+                            </p>
+                        </td>
+                    </tr>
+                } -->
+            </tbody>
+        </table>
+
+        <!-- <div class="text-center mt-5">
+            <pagination-controls
+                (pageChange)="page = $event"
+                previousLabel="Prev"
+                nextLabel="Next">
+            </pagination-controls>
+        </div> -->
+      
+    </div>
+</div>
